@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 import axios from '../axios';
 
 import * as url from '../constants/urls';
-import * as status from '../constants/type';
 
-class OrderPage extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props);
     
@@ -22,4 +21,4 @@ class OrderPage extends Component {
   }
 }
 
-export default OrderPage;
+export default LoginPage;
