@@ -1,1 +1,1 @@
-export const PENDING = 'PENDING';
+export const PENDING = 'Pending';
