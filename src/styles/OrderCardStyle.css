@@ -3,8 +3,11 @@
     border-style: solid;
     border-width: 5px;
 }
-.orders_container {
+.order-cards {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+}
+.order-item-category {
+    color: red
 }

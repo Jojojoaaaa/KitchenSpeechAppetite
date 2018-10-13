@@ -11,7 +11,8 @@ class OrderPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: []
+      orders: [],
+      date : moment().format("LL")
     }
   }
   componentDidMount() {
@@ -27,34 +28,54 @@ class OrderPage extends Component {
     .then(response => {
       let orders = response.data;
       this.setState({orders: orders});
-      this.retrieveAllOrdersItems(orders);
     }) 
     .catch(error => {
       alert("error");
     })
 
-    //setTimeout(this.retrieveAllOrders, 5000);
+    setTimeout(this.retrieveAllOrders, 2000);
   }
-  retrieveAllOrdersItems = (orders) => {
-    orders.forEach((order, i) =>{
-      this.retrieveOrderItems(order.order_id, i);
-    });
-  }
-  retrieveOrderItems = (order_id, order_index) => {
-    let orders = [...this.state.orders];
-    const post_data = {order_id: order_id};
 
-    axios.post(url.MAIN_URL + url.RETRIEVE_ORDERS_ITEM, post_data)
-    .then(response => {
-     orders[order_index].items = response.data;
-     this.setState({orders: orders});
-    })
-    .catch(error => {
-      console.log(error);
-    })
+  handleServeOrder = (order_id) => {
+    const post_data = {
+      order_id: order_id,
+      status_update: status.READY
+    };
+    axios.post(url.MAIN_URL + url.UPDATE_ORDERS_STATUS, post_data)
+      .then(response =>{
+        if (response.data > 0) {
+          alert('updated');
+        }
+        else {
+          alert('error');
+        }
+      })
+      .catch(error => {
+        alert(error);
+      });
   }
+  handleCancelOrder = (order_id) => {
+    const post_data = {order_id: order_id};
+    axios.post(url.MAIN_URL + url.CANCEL_ORDER, post_data)
+      .then(response =>{
+        if (response.data > 0) {
+            alert('deleted');
+        }
+        else {
+            alert('error');
+        }
+      })
+      .catch(error => {
+        alert("error");
+      })
+  }
+  
   render() {
-    const {orders} = this.state;
+    const {
+      orders,
+      date} = this.state;
+    const handleServeOrder = this.handleServeOrder;
+    const handleCancelOrder = this.handleCancelOrder;
 
     let order_cards = orders.map(order => {
       const time = moment(order.date).format('LT'); 
@@ -65,7 +86,9 @@ class OrderPage extends Component {
           table_number = {order.table_number}
           order_id = {order.order_id}
           waiter_name = {order.waiter_name}
-          time = {time}>
+          time = {time}
+          handleServeOrder = {handleServeOrder}
+          handleCancelOrder = {handleCancelOrder}>
             {order.items.map((item, i) => {
               return (
                 <OrderItem
@@ -78,10 +101,11 @@ class OrderPage extends Component {
             })}
          </OrderCard>
       )
-    }) 
+    }); 
     return (
       <div>
-        <OrderComponent>
+        <OrderComponent
+          date = {date}>
           {order_cards}
         </OrderComponent>
       </div>

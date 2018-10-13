@@ -5,11 +5,12 @@ export function OrderItem(props) {
     const {
         name,
         category,
-        qty
+        qty,
     } = props;
     return (
         <div className="order-item">
-            <p>{name} {category} {qty}</p>
+            <p>{name} {qty}</p>
+            <p className="order-item-category">{category}</p>
         </div>
     )
 }
@@ -19,7 +20,10 @@ export function OrderCard(props) {
         table_number, 
         order_id, 
         waiter_name, 
-        time} = props;
+        time,
+        handleServeOrder,
+        handleCancelOrder
+        } = props;
     return (
         <div className="order-card-container">
             <p>{order_type}</p>
@@ -29,13 +33,20 @@ export function OrderCard(props) {
             <p>{time}</p>
             <p>Item Description Qty</p>
             {props.children}
+            <button onClick={() => handleServeOrder(order_id)}>Ready to Serve</button> <br/>
+            <button onClick={() => handleCancelOrder(order_id)}>x</button>
         </div>
     )
 }
 export default function OrderComponent(props) {
+    const {date} = props;
+
     return (
         <div className="orders_container">
-            {props.children}
+            <label>{date}</label>
+            <div className="order-cards">
+                {props.children}
+            </div>
         </div>
     );
 }
