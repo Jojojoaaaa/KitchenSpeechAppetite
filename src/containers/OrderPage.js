@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import axios from '../axios';
 import moment from 'moment';
 
 import * as url from '../constants/urls';
 import * as status from '../constants/type';
+import * as routes from '../constants/routes';
+
 import OrderComponent, {OrderCard, OrderItem} from '../components/OrderComponent';
 
 class OrderPage extends Component {
@@ -15,8 +18,18 @@ class OrderPage extends Component {
       date : moment().format("LL")
     }
   }
+  componentWillMount() {
+    if (!this.props.auth) {
+      this.props.history.push(routes.LOGIN);
+    }
+    else {
+      this.retrieveAllOrders();
+    }
+  }
   componentDidMount() {
-   this.retrieveAllOrders();
+  }
+  componentWillUnmount() {
+    clearTimeout(this.update);
   }
   shouldComponentUpdate(nextProps, nextState) {
     return (nextState.orders !== this.state.orders);
@@ -24,16 +37,17 @@ class OrderPage extends Component {
   retrieveAllOrders = () => {
     const post_data = {status: status.PENDING};
 
-    axios.post(url.MAIN_URL + url.RETRIEVE_ORDERS, post_data)
+    axios.post(this.props.main_url + url.RETRIEVE_ORDERS, post_data)
     .then(response => {
       let orders = response.data;
       this.setState({orders: orders});
     }) 
     .catch(error => {
       alert("error");
+      clearTimeout(this.update);
     })
 
-    setTimeout(this.retrieveAllOrders, 2000);
+    this.update = setTimeout(this.retrieveAllOrders, 2000);
   }
 
   handleServeOrder = (order_id) => {
@@ -41,7 +55,7 @@ class OrderPage extends Component {
       order_id: order_id,
       status_update: status.READY
     };
-    axios.post(url.MAIN_URL + url.UPDATE_ORDERS_STATUS, post_data)
+    axios.post(this.props.main_url + url.UPDATE_ORDERS_STATUS, post_data)
       .then(response =>{
         if (response.data > 0) {
           alert('updated');
@@ -56,7 +70,7 @@ class OrderPage extends Component {
   }
   handleCancelOrder = (order_id) => {
     const post_data = {order_id: order_id};
-    axios.post(url.MAIN_URL + url.CANCEL_ORDER, post_data)
+    axios.post(this.props.main_url + url.CANCEL_ORDER, post_data)
       .then(response =>{
         if (response.data > 0) {
             alert('deleted');
@@ -113,4 +127,11 @@ class OrderPage extends Component {
   }
 }
 
-export default OrderPage;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    main_url: state.main_url
+  };
+}
+
+export default connect(mapStateToProps)(OrderPage);
