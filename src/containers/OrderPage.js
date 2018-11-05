@@ -31,9 +31,6 @@ class OrderPage extends Component {
   componentWillUnmount() {
     clearTimeout(this.update);
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextState.orders !== this.state.orders);
-  }
   retrieveAllOrders = () => {
     const post_data = {status: status.PENDING};
 
@@ -58,14 +55,14 @@ class OrderPage extends Component {
     axios.post(this.props.main_url + url.UPDATE_ORDERS_STATUS, post_data)
       .then(response =>{
         if (response.data > 0) {
-          alert('updated');
+          alert('Order has been updated.');
         }
         else {
-          alert('error');
+          alert('Something went wrong...');
         }
       })
       .catch(error => {
-        alert(error);
+        alert(error.message);
       });
   }
   handleCancelOrder = (order_id) => {

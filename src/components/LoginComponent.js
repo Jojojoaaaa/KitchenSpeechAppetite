@@ -15,6 +15,10 @@ export default function LoginComponent(props) {
                 onChange={(e) => handlePasswordInput(e.target.value)}/>
             <br/>
             <button onClick={() => handleLogin(password)}>Login</button>
+            <br/>
+            <br/>
+            <br/>
+            Need ni change IP Address.
         </div>
     );
 }

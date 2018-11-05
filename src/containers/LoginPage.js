@@ -37,7 +37,7 @@ class LoginPage extends Component {
         }      
       })
       .catch(error => {
-        console.log(error);
+        alert("There's been a " + error.message + ", please make sure you are connected to the server using the correct IP address and that the server is running.");
       });
   }
   render() {
