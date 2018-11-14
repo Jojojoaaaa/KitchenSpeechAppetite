@@ -10,6 +10,8 @@ import * as url from '../constants/urls';
 import * as routes from '../constants/routes';
 import * as actions from '../store/actions';
 
+import '../styles/OrderStyle.css';
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
