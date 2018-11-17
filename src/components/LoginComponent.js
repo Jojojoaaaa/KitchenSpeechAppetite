@@ -1,7 +1,6 @@
 import React from 'react';
 
-import logo from '../assets/kitchen/icon.png'
-import login from '../assets/kitchen/btn-login.png'
+import logo from '../assets/kitchen/icon.svg'
 
 export default function LoginComponent(props) {
     const {
@@ -13,7 +12,7 @@ export default function LoginComponent(props) {
         <div className="login-container">
             <div className="login-box">
                 <div className="logo">
-                <img src={logo}></img>
+                <img src={logo} alt=""></img>
                 </div>
                 <div>
                     <div className="lbl-admin">Welcome, Admin!</div>

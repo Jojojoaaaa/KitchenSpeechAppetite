@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactToPrint from "react-to-print";
 
-import '../styles/OrderStyle.css';
+import icon from '../assets/kitchen/header-icon.svg'
+
 
 export function OrderItem(props) {
     const {
@@ -11,8 +12,12 @@ export function OrderItem(props) {
     } = props;
     return (
         <div className="order-item">
-            <p>{name} {qty}</p>
-            <p className="order-item-category">{category}</p>
+            <div id="legend-qty">{qty}</div>
+            <div id="legend-item">
+            {name}
+            <br/>
+            <text id="order-item-category">{category}</text>
+            </div>
         </div>
     )
 }
@@ -28,31 +33,40 @@ export function OrderCard(props) {
         } = props;
         let order_card_ref = "";
     return (
-        <div 
-            className="order-card-container">    
-            <div 
-                ref={el => {order_card_ref = el}}>
-                <p>(MAY DESIGN NI SA YA)</p>
-                <p>{order_type}</p>
-                <p>Table # {table_number}</p>
-                <p>{waiter_name}</p>
-                <p>Order # {order_id}</p>
-                <p>{time}</p>
-                <p>Item Description Qty</p>
+        <div className="order-card-container">
+            <div className="order-print"  ref={el => {order_card_ref = el}}>
+                <div className="order-details">
+                    <div className="detail-table">
+                    <div>
+                        <text id="text-bold">Table # {table_number}</text>
+                        <text> {order_type} </text>
+                    </div>
+                    <div>{waiter_name}</div>
+                    </div>
+                    <div className="detail-order">
+                    <div>Order # {order_id}</div>
+                    <div>{time}</div>
+                    </div>
+                </div>
+                <div className="order-legend">
+                    <div id="legend-qty">QTY</div>
+                    <div id="legend-item">ITEM DESCRIPTION</div>
+                </div>
+                <div className="order-list">
                 {props.children}
+                </div>
             </div>
-            {/* gin lain ko ni na div ang buttons para di sa madala sa print view hekhek */}
-            <div>
-                <ReactToPrint
-                    trigger={() => <button>Ready to Serve</button>}
+            
+            <div className="order-buttons">
+                <div><button  className="button-entry" onClick={() => handleCancelOrder(order_id)}>Cancel</button></div>
+                <div><ReactToPrint
+                    trigger={() => <button className="button-entry">Print</button>}
                     content={() => order_card_ref}
                     onBeforePrint={() => alert('Prompt ni sa, Everything ready?')}
-                    onAfterPrint={() => handleServeOrder(order_id)}
-                />
+                /></div>
                 {/* <button onClick={() => handleServeOrder(order_id)}>Ready to Serve</button>
                 <button className ={classes.Print}><strong>PRINT</strong></button> */}
-                <br/>
-                <button onClick={() => handleCancelOrder(order_id)}>x</button>
+                <div><button className="button-entry" id="button-ready" onClick={() => handleServeOrder(order_id)}>Ready</button></div>
             </div>
         </div>
     )
@@ -61,11 +75,14 @@ export default function OrderComponent(props) {
     const {date} = props;
 
     return (
-        <div className="orders_container">
+        <div id="orders-container">
+            <div className="order-header">
+            <img src={icon} alt=""></img>
             <label>{date}</label>
-            <div className="order-cards">
-                {props.children}
             </div>
+            <div className="order-cards">
+                {props.children} 
+            </div>      
         </div>
     );
 }

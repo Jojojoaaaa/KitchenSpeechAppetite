@@ -7,6 +7,7 @@ import moment from 'moment';
 import * as url from '../constants/urls';
 import * as status from '../constants/type';
 import * as routes from '../constants/routes';
+import '../styles/OrderStyle.css';
 
 import OrderComponent, {OrderCard, OrderItem} from '../components/OrderComponent';
 
