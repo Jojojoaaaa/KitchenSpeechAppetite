@@ -67,22 +67,31 @@ export function OrderCard(props) {
                 {/* <button onClick={() => handleServeOrder(order_id)}>Ready to Serve</button>
                 <button className ={classes.Print}><strong>PRINT</strong></button> */}
                 <div><button className="button-entry" id="button-ready" onClick={() => handleServeOrder(order_id)}>Ready</button></div>
+                <div><button className="button-entry" id="btnModal">Modal</button></div>
             </div>
         </div>
-    )
+    )    
 }
+
 export default function OrderComponent(props) {
     const {date} = props;
 
     return (
-        <div id="orders-container">
+        <div className="orders-container">
             <div className="order-header">
             <img src={icon} alt=""></img>
             <label>{date}</label>
             </div>
             <div className="order-cards">
                 {props.children} 
-            </div>      
+            </div>  
+
+            <div id="myModal" className="modal">
+            <div className="modal-content">
+            <p>Some text in the Modal..</p>
+            <span className="close">Close</span>
+            </div>
+            </div>    
         </div>
     );
 }
