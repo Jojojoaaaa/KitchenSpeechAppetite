@@ -5,10 +5,13 @@ import { connect } from 'react-redux';
 import axios from '../axios';
 
 import LoginComponent from '../components/LoginComponent';
+import ModalComponent from '../components/ModalComponent';
+import PromptModalComponent, {IPInputComponent} from '../components/PromptModalComponent';
 
 import * as url from '../constants/urls';
 import * as routes from '../constants/routes';
 import * as actions from '../store/actions';
+import * as type  from '../constants/type';
 
 import '../styles/OrderStyle.css';
 
@@ -16,7 +19,12 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      password: ""
+      password: "",
+      show: false,
+      change_ip: false,
+      ip_address: '',
+      modal_type: '',
+      modal_message: '',
     }
     
   }
@@ -25,6 +33,36 @@ class LoginPage extends Component {
   
   handlePasswordInput = password => {
     this.setState({password: password})
+  }
+  handleHideModal = () => {
+    this.setState({show:false});
+  }
+  handleHidePrompt=()=> {
+    this.setState({
+      change_ip:false
+    })
+  }
+  onIPInputchange = (ip_address) => {
+    console.log(ip_address);
+    this.setState({
+      ip_address: ip_address
+    });
+  }
+  handleChangeIPClick = () => {
+    this.setState({
+      change_ip: true,
+      modal_message: 'Enter IP Address to change'
+    })
+  }
+  handleIPAddressChange = () =>{
+    const {ip_address} = this.state;
+    this.props.onSetIPAddress(ip_address);
+    this.setState({
+      change_ip: false,
+      show: true,
+      modal_type: type.SUCCESS,
+      modal_message: 'IP Address has been changed.'
+    })
   }
   handleLogin = password => {
     const post_data = {password: password};
@@ -35,27 +73,71 @@ class LoginPage extends Component {
           this.props.history.push(routes.ORDERS);
         }
         else {
-          alert('Password is incorrect!');
+          this.setState({
+            show: true,
+            modal_type: type.ERROR,
+            modal_message: type.PASSWORD_ERROR 
+          })
         }      
       })
       .catch(error => {
-        alert("There's been a " + error.message + ", please make sure you are connected to the server using the correct IP address and that the server is running.");
+        this.setState({
+          show: true,
+          modal_type: type.ERROR,
+          modal_message: type.PRE_ERROR_MESSAGE + error.message + type.POST_ERROR_MESSAGE
+        })
       });
   }
   render() {
     const {
-      password
+      password,
+      modal_message,
+      modal_type,
+      show,
+      ip_address,
+      change_ip
       } = this.state;
-
     const handlePasswordInput = this.handlePasswordInput;
     const handleLogin = this.handleLogin;
-
+    const handleHideModal = this.handleHideModal;
+    const handleChangeIPClick = this.handleChangeIPClick;
+    const handleIPAddressChange = this.handleIPAddressChange;
+    const handleHidePrompt = this.handleHidePrompt;
+    const onIPInputchange = this.onIPInputchange;
+    const modal = (
+      show
+      ?
+        <ModalComponent
+          modal_type={modal_type}
+          modal_message={modal_message}
+          handleClick={handleHideModal}/>
+      :
+        null
+    );
+    const prompt = (
+      change_ip
+        ?
+          <PromptModalComponent
+            handleConfirm={handleIPAddressChange}
+            handleDecline={handleHidePrompt}
+            modal_message={modal_message}>
+            <IPInputComponent
+              ip_address={ip_address}
+              onIPInputchange={onIPInputchange}/>
+          </PromptModalComponent>
+        :
+          null
+    ) 
     return (
       <div>
         <LoginComponent
           handlePasswordInput={handlePasswordInput}
           handleLogin={handleLogin}
-          password={password}/>
+          password={password}
+          handleChangeIPClick={handleChangeIPClick}>
+          {modal}
+          {prompt}
+        </LoginComponent>
       </div>
     );
   }

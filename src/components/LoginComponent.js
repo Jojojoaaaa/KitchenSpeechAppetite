@@ -7,10 +7,14 @@ export default function LoginComponent(props) {
         handlePasswordInput,
         handleLogin,
         password,
+        handleChangeIPClick,
         } = props;
     return (
         <div className="login-container">
             <div className="login-box">
+                <button
+                    onClick={() => handleChangeIPClick()}>Change ip address</button>
+                {props.children}
                 <div className="logo">
                 <img src={logo} alt=""></img>
                 </div>

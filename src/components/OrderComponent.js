@@ -3,7 +3,6 @@ import ReactToPrint from "react-to-print";
 
 import icon from '../assets/kitchen/header-icon.svg'
 
-
 export function OrderItem(props) {
     const {
         name,
@@ -16,7 +15,7 @@ export function OrderItem(props) {
             <div id="legend-item">
             {name}
             <br/>
-            <text id="order-item-category">{category}</text>
+            <div id="order-item-category">{category}</div>
             </div>
         </div>
     )
@@ -38,8 +37,8 @@ export function OrderCard(props) {
                 <div className="order-details">
                     <div className="detail-table">
                     <div>
-                        <text id="text-bold">Table # {table_number}</text>
-                        <text> {order_type} </text>
+                        <div id="text-bold">Table # {table_number}</div>
+                        <div> {order_type} </div>
                     </div>
                     <div>{waiter_name}</div>
                     </div>
@@ -59,15 +58,13 @@ export function OrderCard(props) {
             
             <div className="order-buttons">
                 <div><button  className="button-entry" onClick={() => handleCancelOrder(order_id)}>Cancel</button></div>
-                <div><ReactToPrint
-                    trigger={() => <button className="button-entry">Print</button>}
-                    content={() => order_card_ref}
-                    onBeforePrint={() => alert('Prompt ni sa, Everything ready?')}
-                /></div>
-                {/* <button onClick={() => handleServeOrder(order_id)}>Ready to Serve</button>
-                <button className ={classes.Print}><strong>PRINT</strong></button> */}
+                <div>
+                    <ReactToPrint
+                        trigger={() => <button className="button-entry">Print</button>}
+                        content={() => order_card_ref}
+                        />
+                </div>
                 <div><button className="button-entry" id="button-ready" onClick={() => handleServeOrder(order_id)}>Ready</button></div>
-                <div><button className="button-entry" id="btnModal">Modal</button></div>
             </div>
         </div>
     )    
@@ -86,12 +83,7 @@ export default function OrderComponent(props) {
                 {props.children} 
             </div>  
 
-            <div id="myModal" className="modal">
-            <div className="modal-content">
-            <p>Some text in the Modal..</p>
-            <span className="close">Close</span>
-            </div>
-            </div>    
+             
         </div>
     );
 }
