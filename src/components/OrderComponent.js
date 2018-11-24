@@ -77,7 +77,7 @@ export default function OrderComponent(props) {
         <div className="orders-container">
             <div className="order-header">
             <img src={icon} alt=""></img>
-            <label>{date}</label>
+            <label>Date: {date}</label>
             </div>
             <div className="order-cards">
                 {props.children} 

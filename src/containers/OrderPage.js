@@ -9,6 +9,7 @@ import * as status from '../constants/type';
 import * as routes from '../constants/routes';
 import * as type from '../constants/type';
 
+import empty from '../assets/kitchen/icon-empty.svg';
 import '../styles/OrderStyle.css';
 
 import OrderComponent, {OrderCard, OrderItem} from '../components/OrderComponent';
@@ -183,7 +184,7 @@ class OrderPage extends Component {
     const no_order = (
       (!orders[0])
         ?
-          <div>No orders for now</div>
+          <div className='empty-state'><img src={empty}></img>No orders for now</div>
         :
         null
     )
