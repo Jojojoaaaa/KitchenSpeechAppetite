@@ -84,12 +84,14 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: row;
     margin: 5px 0px 5px 0px;
-    padding-left: 20px;
+    padding-left: 2px;
+    padding-right: 18px;
     font-family: 'Courier New', Courier, monospace;
 }
 
 #order-item-category {
-    color: gray;
+    font-weight: 900;
+    color: black;
     font-size: 12px;
     font-family: 'Courier New', Courier, monospace;
 }
@@ -151,12 +153,12 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .order-details{
-    background: rgb(204, 126, 102); 
+    /* background: rgb(204, 126, 102);  */
     font-family: 'Courier New', Courier, monospace;
     font-size: 14px;
-    color: white;
+    color: black;
     height: 50px;
-    width: 100%;
+    width: 70%;
     display: flex;
     flex-direction: row;
     font-weight: 500;
@@ -165,24 +167,26 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 .detail-table{
     display: flex;
-    flex: 3.5;
-    padding-left: 15px;
+    flex: 1;
+    padding-left: 5px;
     justify-content: center;
     flex-direction: column;
 }
 
 .detail-order{
     display: flex;
-    flex: 2;
+    flex: 1;
     padding-right: 15px;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: left;
+    align-items: flex-start;
     flex-direction: column;
 }
 
 .order-legend{
     display: flex;
     flex-direction: row;
+    font-weight: 900;
+    color: black;
     height: 30px;
     font-size: 12px;
     padding-left: 15px;
@@ -195,6 +199,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 #legend-qty{
     flex: 1;
     font-weight: 550;
+    align-self: auto;
 }
 
 #legend-item{
