@@ -43,7 +43,8 @@ class OrderPage extends Component {
     clearTimeout(this.update);
   }
   retrieveAllOrders = () => {
-    const post_data = {status: status.PENDING};
+    const date = moment().format('LL');
+    const post_data = {status: status.PENDING, date:date};
 
     axios.post(this.props.main_url + url.RETRIEVE_ORDERS, post_data)
     .then(response => {
